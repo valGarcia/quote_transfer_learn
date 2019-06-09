@@ -7,7 +7,7 @@ from datetime import datetime
 import re
 import argparse
 
-spacy.load('en')
+#spacy.load('en')
 
 # Define help functions
 def str2bool(v):
@@ -22,7 +22,7 @@ def str2bool(v):
         
 def get_texts(fname, minwords = 100):
     texts = []
-    with fname.open('r', encoding='utf-8') as f:
+    with fname.open('r') as f:
         curr = ['', 0]
         for line in f:
             if line == '\n': # giannis
@@ -42,7 +42,7 @@ def get_texts(fname, minwords = 100):
 def get_sentences(fname):
     # Giannis: splitting text into sentences instead of paragraphs. 
     texts = []
-    with fname.open('r', encoding='utf-8') as f:
+    with fname.open('r') as f:
         for line in f:
             if line == '\n': continue
             line = re.sub(r"\[[0-9]+\]", "", line) # replace "[<int>]" by "" (common in dfw_lobster)
@@ -221,7 +221,7 @@ def main(num_epochs, valid_size, use_general, sample_general, use_pretrained, ba
 if __name__ == '__main__':
     # Define paths & names
     parser = argparse.ArgumentParser(description='STYLE GENERATION EXPERIMENTS')
-    parser.add_argument('--NAME', nargs='?', type=str, help='Book name', required=False, default='dfw_lobster')
+    parser.add_argument('--NAME', nargs='?', type=str, help='Book name', required=False, default='pop_quotes')
     parser.add_argument('--num_epochs', nargs='?', type=int, help='Number of epochs', required=False, default=30)
     parser.add_argument('--valid_size', nargs='?', type=float, help='Validation size (0-1)', required=False, default=0.3)
     parser.add_argument('--use_general', nargs='?', help='Use general vocabulary?', const=True, required=False, default=False)
@@ -237,8 +237,8 @@ if __name__ == '__main__':
 
     NAME = args.NAME
     # giannis: for dfw_lobster we need to manually set a batch size <= number of validation data
-    if NAME == 'dfw_lobster': 
-        batch_size = 10
+    if NAME == 'pop_quotes': 
+        batch_size = 4
     else:
         batch_size = 52
 

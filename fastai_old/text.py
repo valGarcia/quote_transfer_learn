@@ -41,7 +41,7 @@ def numericalize_tok(tokens, max_vocab=50000, min_freq=0, unk_tok="_unk_", pad_t
     return int2tok, tok2int
 
 class Tokenizer():
-    def __init__(self, lang='en'):
+    def __init__(self, lang='en_core_web_sm'):
         self.re_br = re.compile(r'<\s*br\s*/?>', re.IGNORECASE)
         self.tok = spacy.load(lang)
         for w in ('<eos>','<bos>','<unk>'):
@@ -95,7 +95,7 @@ class Tokenizer():
         return [tok.proc_text(s) for s in ss]
 
     @staticmethod
-    def proc_all_mp(ss, lang='en', ncpus = None):
+    def proc_all_mp(ss, lang='en_core_web_sm', ncpus = None):
         ncpus = ncpus or num_cpus()//2
         with ProcessPoolExecutor(ncpus) as e:
             return sum(e.map(Tokenizer.proc_all, ss, [lang]*len(ss)), [])
